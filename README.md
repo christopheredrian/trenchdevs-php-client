@@ -1,6 +1,6 @@
 # trenchdevs-php-client
 
-A simple PHP client for the [trenchdevs.org](trenchdevs) API 
+A simple PHP client for the [trenchdevs.org](https://trenchdevs.org) API 
 
 ## Installation 
 
