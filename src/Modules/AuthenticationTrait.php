@@ -19,7 +19,7 @@ trait AuthenticationTrait
             'password' => $password,
         ]);
 
-        $accessToken = $response->access_token ?? null;
+        $accessToken = $response->access_token ?? $response['access_token'] ?? null;
 
         if (!empty($accessToken)) {
             $this->client = TrenchDevsGuzzleClient::setClient($this->apiEndpoint, [

@@ -1,8 +1,11 @@
 # trenchdevs-php-client
 
+A simple PHP client for the [trenchdevs.org](trenchdevs) API 
+
 ## Installation 
 
-### via composer 
+Package can be installed via composer
+
 ```
 composer require trenchdevs/trenchdevs-php-client
 ```
@@ -36,6 +39,10 @@ var_dump($trenchDevsClient->productOne(6));
 var_dump($trenchDevsClient->logout());
 
 ```
+
+## Docs
+
+todo
 
 ## Contributors
 

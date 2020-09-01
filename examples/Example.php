@@ -7,7 +7,7 @@
  *
  * To run:
  *
- *  php examples/Exmple.php
+ *  php examples/Example.php
  */
 use TrenchDevs\TrenchDevsClient\TrenchDevsClient;
 

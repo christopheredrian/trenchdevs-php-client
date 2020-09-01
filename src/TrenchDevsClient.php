@@ -30,6 +30,12 @@ class TrenchDevsClient
     private $apiEndpoint = null;
 
     /**
+     * Default value on api exception or when unable to json decode
+     * @var mixed
+     */
+    private $defaultValueOnException = null;
+
+    /**
      * TrenchDevsConnector constructor.
      * @param string $apiEndpoint
      */
@@ -64,7 +70,7 @@ class TrenchDevsClient
             $options['form_params'] = $formParams;
         }
 
-        return $this->callOrDefault(function () use ($endpoint, $options) {
+        return $this->callFunctionOrDefault(function () use ($endpoint, $options) {
             return $this->getContentsDecoded($this->client->post($endpoint, $options));
         });
 
@@ -81,22 +87,23 @@ class TrenchDevsClient
             $endpoint = call_user_func_array("sprintf", [$endpoint, $endpointSprintfArgs]);
         }
 
-        return $this->callOrDefault(function () use ($endpoint) {
+        return $this->callFunctionOrDefault(function () use ($endpoint) {
             return $this->getContentsDecoded($this->client->get($endpoint));
         });
     }
 
     /**
      * @param callable $toCall
-     * @param null $default
      * @return mixed|null
      */
-    private function callOrDefault(callable $toCall, $default = null)
+    private function callFunctionOrDefault(callable $toCall)
     {
         try {
             return $toCall();
         } catch (ClientException $exception) {
-            return $this->decodeOrDefault($this->getContentsFromResponse($exception->getResponse()), $default);
+            return $this->decodeOrDefault($this->getContentsFromResponse($exception->getResponse()));
+        } catch (\Exception $exception) {
+            return $this->defaultValueOnException;
         }
     }
 
@@ -106,15 +113,15 @@ class TrenchDevsClient
      * @param null $default
      * @return mixed|null
      */
-    private function decodeOrDefault(string $toDecode, $default = null)
+    private function decodeOrDefault(string $toDecode)
     {
         $decoded = json_decode($toDecode, $this->associateArrayResponse);
 
-        if ($decoded) {
+        if (json_last_error() == JSON_ERROR_NONE) {
             return $decoded;
         }
 
-        return $default;
+        return $this->defaultValueOnException;
     }
 
     /**
@@ -145,4 +152,15 @@ class TrenchDevsClient
         $this->associateArrayResponse = $associateArrayResponse;
         return $this;
     }
+
+    /**
+     * @param array $defaultValueOnException
+     * @return TrenchDevsClient
+     */
+    public function setDefaultValueOnException(array $defaultValueOnException): TrenchDevsClient
+    {
+        $this->defaultValueOnException = $defaultValueOnException;
+        return $this;
+    }
+
 }
