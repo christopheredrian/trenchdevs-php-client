@@ -2,8 +2,6 @@
 
 namespace TrenchDevs\TrenchDevsClient;
 
-require 'vendor/autoload.php';
-
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;

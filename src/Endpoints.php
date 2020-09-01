@@ -2,8 +2,6 @@
 
 namespace TrenchDevs\TrenchDevsClient;
 
-require 'vendor/autoload.php';
-
 class Endpoints
 {
     const TEST = 'api/test';

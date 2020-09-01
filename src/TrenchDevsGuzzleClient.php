@@ -2,8 +2,6 @@
 
 namespace TrenchDevs\TrenchDevsClient;
 
-require 'vendor/autoload.php';
-
 use GuzzleHttp\Client;
 
 class TrenchDevsGuzzleClient
